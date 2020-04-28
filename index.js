@@ -1,3 +1,4 @@
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 require('dotenv').config();
 const Discord = require('discord.js');
  const bot = new Discord.Client();
@@ -7,29 +8,47 @@ const prefix = "B!"
 
 bot.on('ready', () =>{
     console.log("This bot is online");
-})
+});
+
+const version = "1.0.1";
 
 bot.on('message', msg=>{
 
     let args = msg.content.slice(prefix.length).split(" ");
-    
+    let present = new Date();
+    let time = present.getMilliseconds();
+    const Http = new XMLHttpRequest();
+    const url='https://jsonplaceholder.typicode.com/posts';
+    Http.open("GET", url);
+    Http.send();
+        
     switch(args[0])
     {
-        case "dropout":
-            msg.channel.send("People who aren't in the call are getting kicked off the course!!!");
-            break;
+        // This is the current version number
         case "info":
             if(args[1] === "version")
             {
-                msg.channel.send("Version 1.0.1");
+                msg.channel.send("Version " + version);
             }
             else{
                 msg.channel.send("Invalid argument");
             }
             break;
         case "ping":
-            msg.channel.send("Pong!");
-            break;
+        function pinger(){
+            let reply=0;
+            Http.addEventListener('readystatechange', (event) =>{
+                if (Http.readyState == 4 && Http.status == 200){
+                let pong = new Date();
+                const response = pong.getMilliseconds();
+                const result = (response - time);
+                reply = msg.channel.send("It took " + result + "ms to Pong!");
+                }
+            });
+            return reply;
+        }
+        pinger();
+        break;
         case "simp":
             {
             msg.channel.send('https://www.youtube.com/watch?v=7435xZZOzsY');
@@ -47,9 +66,9 @@ bot.on('message', msg=>{
                 break;
             }
         case "help":
-        msg.channel.send('All commands start with B! \n help, hello, simp, ping, info, clear');
-        break;
-            
+            msg.channel.send('All commands start with B! \n help, hello, simp, ping, info, clear');
+            break;
+
     }
 })
 
