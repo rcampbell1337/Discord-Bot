@@ -23,7 +23,7 @@ bot.on('ready', () =>{
 });
 
 // Version can be updated when neccessary
-const version = "1.0.1";
+const version = "1.0.2";
 
 bot.on('message', msg=>{
 
@@ -48,6 +48,7 @@ bot.on('message', msg=>{
         
     switch(args[0])
     {
+
         // This is the current version number
         case "info":
             if(args[1] === "version")
@@ -61,10 +62,11 @@ bot.on('message', msg=>{
                "experience and learning. For those of you who are testing this bot i hope you enjoy, and stay tuned for updates!") 
             }
             else{
-                msg.channel.send("Enter a second argument, author or version.");
+                msg.channel.send("Enter a second argument: author or version.");
             }
             break;
         case "ping":
+
             // Tests the ping of the user asking for it
             function pinger(){
                 let reply=0;
@@ -93,6 +95,7 @@ bot.on('message', msg=>{
                 msg.channel.send("Please enter the simps username.")
             }
             break;
+
         //Sends a GIF from jojo's bizarre adventure
         case "jojo":
             gifs = [
@@ -100,9 +103,23 @@ bot.on('message', msg=>{
             "https://media2.giphy.com/media/Nn17cPRa7dZ28/giphy.gif",
             "https://i.kym-cdn.com/photos/images/original/001/204/072/6d2.gif",
             "https://media1.giphy.com/media/bC0caT4xYU8qQ/source.gif",
-            "https://media1.tenor.com/images/71242474d0c209cfe775269ee2b9449b/tenor.gif?itemid=15487465"
+            "https://media1.tenor.com/images/71242474d0c209cfe775269ee2b9449b/tenor.gif?itemid=15487465",
+            "https://media.giphy.com/media/IzfJSTepKi5vW/giphy.gif"
             ];
-            msg.channel.send(gifs[getRandomInt(4)]);
+            msg.channel.send(gifs[getRandomInt(5)]);
+            break;
+        
+        // Send a opm gif
+        case "opm":
+            gifs = [
+            "https://media3.giphy.com/media/4j1nGRNRIa3e0/source.gif",
+            "https://i.gifer.com/JRW1.gif",
+            "https://i.gifer.com/C5bV.gif",
+            "https://media.giphy.com/media/x4x95uLyeimMU/giphy.gif",
+            "https://i.gifer.com/FODF.gif",
+            "https://33.media.tumblr.com/07abdaa5439a9b4fb5532cd203238274/tumblr_nxiji1jyr21uzkymgo1_500.gif"
+            ];
+            msg.channel.send(gifs[getRandomInt(5)]);
             break;
         // Responds a hello to the person who said it
         case "hello":
@@ -120,7 +137,7 @@ bot.on('message', msg=>{
         
         // Tells the user all of the commands
         case "help":
-            msg.channel.send('All commands start with B! \n help, hello, simp, ping, info, clear');
+            msg.channel.send('All commands start with B! \n help, hello, simp, ping, info, clear, jojo');
             break;
 
     }
