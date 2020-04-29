@@ -10,6 +10,7 @@
  // Basic info for bot set up
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 require('dotenv').config();
+const request = require("request");
 const Discord = require('discord.js');
  const bot = new Discord.Client();
 
@@ -26,6 +27,9 @@ const version = "1.0.1";
 
 bot.on('message', msg=>{
 
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+      }
     // Refers to the user requesting the response.
     let selfUser = msg.member.user.username;
 
@@ -50,8 +54,14 @@ bot.on('message', msg=>{
             {
                 msg.channel.send("Version " + version);
             }
+            else if(args[1]=== "author")
+            {
+               msg.channel.send("This is my first attempt at a discord bot that i began creating out of frustration with the lack of bots who teach a word a day. \n" +
+               "This current version does not feature the 'learn a word a day' function, but that is the end goal alongside some more indepth javascript \n" +
+               "experience and learning. For those of you who are testing this bot i hope you enjoy, and stay tuned for updates!") 
+            }
             else{
-                msg.channel.send("Invalid argument");
+                msg.channel.send("Enter a second argument, author or version.");
             }
             break;
         case "ping":
@@ -83,7 +93,17 @@ bot.on('message', msg=>{
                 msg.channel.send("Please enter the simps username.")
             }
             break;
-        
+        //Sends a GIF from jojo's bizarre adventure
+        case "jojo":
+            gifs = [
+            "https://thumbs.gfycat.com/NiftySnarlingBluetickcoonhound-size_restricted.gif",
+            "https://media2.giphy.com/media/Nn17cPRa7dZ28/giphy.gif",
+            "https://i.kym-cdn.com/photos/images/original/001/204/072/6d2.gif",
+            "https://media1.giphy.com/media/bC0caT4xYU8qQ/source.gif",
+            "https://media1.tenor.com/images/71242474d0c209cfe775269ee2b9449b/tenor.gif?itemid=15487465"
+            ];
+            msg.channel.send(gifs[getRandomInt(4)]);
+            break;
         // Responds a hello to the person who said it
         case "hello":
             msg.channel.send('Hey ' + selfUser + ", What's up!");
