@@ -67,7 +67,7 @@ bot.on('message', msg=>{
     const url='https://jsonplaceholder.typicode.com/posts';
     Http.open("GET", url);
     Http.send();
-        
+    let deleter = 0;
     switch(args[0])
     {
         // This is the current version number
@@ -152,18 +152,35 @@ bot.on('message', msg=>{
             if(!args[1]) return msg.reply("Error, please enter define a second arg");
             else
             {
-                msg.channel.bulkDelete(args[1]);
-                break;
+                if (args[1] < 20)
+                {
+                    deleter = parseInt(args[1]);
+                    msg.channel.bulkDelete(deleter);
+                    break;
+                }
+                else if(args[1] > 100)
+                {
+                    msg.reply("Come on guys, really? more than 100?");
+                    break;
+                }
+                else{
+                    msg.reply("You're trying to delete too many")
+                    break;
+                }
             }
         
         // Tells the user all of the commands
         case "help":
             msg.channel.send(Embeds.addFields(
                 {name:"Command List", value:'All commands start with B!'},
-                {name:"Memes", value:"simp, ping, jojo, opm"},
-                {name:"Functionality", value:"info, help, hello, clear, ping"}
+                {name:"Memes", value:"simp, jojo, opm"},
+                {name:"Functionality", value:"info, help, hello, clear, ping, code"}
             ));
             break;
+        
+        case "code":
+            const language = ["Java", "Python", "JS", "C++", "PHP", "HTML/ CSS"]
+            msg.channel.send("Today you should write code in: " + language[getRandomInt(6)]);
 
     }
 })
