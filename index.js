@@ -18,6 +18,16 @@ const Discord = require('discord.js');
 const token = process.env.BOT_VAR;
 const prefix = "B!"
 
+// Overwrite the flat function not available to discord current version
+Object.defineProperty(Array.prototype, 'flat', {
+    value: function(depth = 1) {
+      return this.reduce(function (flat, toFlatten) {
+        return flat.concat((Array.isArray(toFlatten) && (depth>1)) ? toFlatten.flat(depth-1) : toFlatten);
+      }, []);
+    }
+});
+
+// Tells me the bot is running
 bot.on('ready', () =>{
     console.log("This bot is online");
 });
@@ -27,6 +37,18 @@ const version = "1.0.2";
 
 bot.on('message', msg=>{
 
+    // Creates an embed message
+    const Embeds = new Discord.MessageEmbed()
+	.setColor('#DD4444')
+	.setTitle('WordADay bot')
+	.setURL('https://www.youtube.com/channel/UCH_bkDYstaTtrHmDN-8Hb3w')
+	.setAuthor('Robbie C', 'https://i.pinimg.com/736x/3c/88/c8/3c88c8510028f627cf58792795629ed1.jpg', 'https://www.youtube.com/channel/UCH_bkDYstaTtrHmDN-8Hb3w')
+	.setDescription("A basic bot that'll read you a word a day!")
+    .setThumbnail('https://i.pinimg.com/736x/3c/88/c8/3c88c8510028f627cf58792795629ed1.jpg')
+	.setImage('https://upload.wikimedia.org/wikipedia/en/thumb/7/78/Bilbo_Baggins.jpg/200px-Bilbo_Baggins.jpg')
+	.setTimestamp()
+    .setFooter('Have fun with it!', 'https://i.pinimg.com/736x/3c/88/c8/3c88c8510028f627cf58792795629ed1.jpg');
+    
     function getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max));
       }
@@ -48,7 +70,6 @@ bot.on('message', msg=>{
         
     switch(args[0])
     {
-
         // This is the current version number
         case "info":
             if(args[1] === "version")
@@ -57,9 +78,9 @@ bot.on('message', msg=>{
             }
             else if(args[1]=== "author")
             {
-               msg.channel.send("This is my first attempt at a discord bot that i began creating out of frustration with the lack of bots who teach a word a day. \n" +
-               "This current version does not feature the 'learn a word a day' function, but that is the end goal alongside some more indepth javascript \n" +
-               "experience and learning. For those of you who are testing this bot i hope you enjoy, and stay tuned for updates!") 
+                let description = "This is my first attempt at a discord bot that i began creating out of frustration with the lack of bots who teach a word a day. \n" +
+                "This current version does not feature the 'learn a word a day' function, but i hope you can have fun with it anyways!"
+               msg.channel.send(Embeds.addField(name= "About this bot", value=description)) 
             }
             else{
                 msg.channel.send("Enter a second argument: author or version.");
@@ -106,7 +127,7 @@ bot.on('message', msg=>{
             "https://media1.tenor.com/images/71242474d0c209cfe775269ee2b9449b/tenor.gif?itemid=15487465",
             "https://media.giphy.com/media/IzfJSTepKi5vW/giphy.gif"
             ];
-            msg.channel.send(gifs[getRandomInt(5)]);
+            msg.channel.send(gifs[getRandomInt(6)]);
             break;
         
         // Send a opm gif
@@ -115,11 +136,11 @@ bot.on('message', msg=>{
             "https://media3.giphy.com/media/4j1nGRNRIa3e0/source.gif",
             "https://i.gifer.com/JRW1.gif",
             "https://i.gifer.com/C5bV.gif",
-            "https://media.giphy.com/media/x4x95uLyeimMU/giphy.gif",
+            "https://pa1.narvii.com/6540/1671ee0151848ebce1408c7219305c070e5ee8ac_00.gif",
             "https://i.gifer.com/FODF.gif",
             "https://33.media.tumblr.com/07abdaa5439a9b4fb5532cd203238274/tumblr_nxiji1jyr21uzkymgo1_500.gif"
             ];
-            msg.channel.send(gifs[getRandomInt(5)]);
+            msg.channel.send(gifs[getRandomInt(6)]);
             break;
         // Responds a hello to the person who said it
         case "hello":
@@ -137,7 +158,7 @@ bot.on('message', msg=>{
         
         // Tells the user all of the commands
         case "help":
-            msg.channel.send('All commands start with B! \n help, hello, simp, ping, info, clear, jojo');
+            msg.channel.send('All commands start with B! \n help, hello, simp, ping, info, clear, jojo, opm');
             break;
 
     }
