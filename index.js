@@ -37,7 +37,7 @@ const version = "1.0.2";
 
 bot.on('message', msg=>{
 
-    // Creates an embed message
+    // Creates an embed option, abitlity to change aspects will be added later
     const Embeds = new Discord.MessageEmbed()
 	.setColor('#DD4444')
 	.setTitle('WordADay bot')
@@ -158,7 +158,11 @@ bot.on('message', msg=>{
         
         // Tells the user all of the commands
         case "help":
-            msg.channel.send('All commands start with B! \n help, hello, simp, ping, info, clear, jojo, opm');
+            msg.channel.send(Embeds.addFields(
+                {name:"Command List", value:'All commands start with B!'},
+                {name:"Memes", value:"simp, ping, jojo, opm"},
+                {name:"Functionality", value:"info, help, hello, clear, ping"}
+            ));
             break;
 
     }
