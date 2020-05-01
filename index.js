@@ -193,8 +193,8 @@ bot.on('message', msg=>{
             if(sure == false)
             {
                 msg.channel.bulkDelete(getDelete() + 3);
-                console.log(getDelete())
                 sure == true;
+                deleter = 0;
             }
                 break;
     }
