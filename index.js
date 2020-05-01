@@ -37,6 +37,15 @@ const version = "1.0.2";
 
 bot.on('message', msg=>{
 
+    function setDelete(value)
+    {
+        sure = false;
+        deleter = value;
+    }
+    function getDelete()
+    {
+        return parseInt(deleter);
+    }
     // Creates an embed option, abitlity to change aspects will be added later
     const Embeds = new Discord.MessageEmbed()
 	.setColor('#DD4444')
@@ -67,7 +76,6 @@ bot.on('message', msg=>{
     const url='https://jsonplaceholder.typicode.com/posts';
     Http.open("GET", url);
     Http.send();
-    let deleter = 0;
     switch(args[0])
     {
         // This is the current version number
@@ -154,8 +162,8 @@ bot.on('message', msg=>{
             {
                 if (args[1] < 20)
                 {
-                    deleter = parseInt(args[1]);
-                    msg.channel.bulkDelete(deleter);
+                    setDelete(parseInt(args[1]));
+                    msg.channel.send("Type B!yes to delete.");
                     break;
                 }
                 else if(args[1] > 100)
@@ -181,7 +189,14 @@ bot.on('message', msg=>{
         case "code":
             const language = ["Java", "Python", "JS", "C++", "PHP", "HTML/ CSS"]
             msg.channel.send("Today you should write code in: " + language[getRandomInt(6)]);
-
+        case "yes":
+            if(sure == false)
+            {
+                msg.channel.bulkDelete(getDelete() + 3);
+                console.log(getDelete())
+                sure == true;
+            }
+                break;
     }
 })
 
