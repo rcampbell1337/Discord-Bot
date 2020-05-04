@@ -13,7 +13,7 @@ require('dotenv').config();
 const request = require("request");
 const Discord = require('discord.js');
  const bot = new Discord.Client();
-
+ const fetch = require('node-fetch');
 
 // Sets up the bot for the apps
 const token = process.env.BOT_VAR;
@@ -199,11 +199,17 @@ bot.on('message', msg=>{
             }
                 break;
         case "word":
-            const app_id = "169b788f";
-            const app_key = "f5ecfa4b0aad66687469e18ea3a2acd9";
-            const word_id = "example";
-            let url = "https://od-api.oxforddictionaries.com:443/api/v2/entries/en-gb" + "/" + String.valueOf(word_id);
-            const r = request.get(url, headers={app_id:app_id, app_key:app_key});
+            const app_key = "75e25137-2b57-4012-8690-b7d8aec765f3";
+            const url = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/voluminous?key=${app_key}`;
+            const asyncApiCall = async () => {
+                const response = await fetch(url)
+                const json = await response.json()
+                const values = json[0].meta
+                console.log(values.id)
+                console.log(json[0].shortdef[0])
+                
+            }
+            asyncApiCall()
     }
 })
 
