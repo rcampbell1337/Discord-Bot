@@ -197,6 +197,13 @@ bot.on('message', msg=>{
                 deleter = 0;
             }
                 break;
+        case "word":
+            const app_id = "169b788f";
+            const app_key = "f5ecfa4b0aad66687469e18ea3a2acd9";
+            const word_id = "example";
+            let url = "https://od-api.oxforddictionaries.com:443/api/v2/entries/en-gb" + "/" + word_id;
+            const r = request.get(url, headers={app_id:app_id, app_key:app_key});
+            console.log(r);
     }
 })
 
