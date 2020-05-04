@@ -34,9 +34,22 @@ bot.on('ready', () =>{
 });
 
 // Version can be updated when neccessary
-const version = "1.0.2";
+const version = "1.0.3";
 
 bot.on('message', msg=>{
+
+    const asyncApiCall = async (word, title) => {
+        try{
+        const app_key = "75e25137-2b57-4012-8690-b7d8aec765f3";
+        const url = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${app_key}`;
+        const response = await fetch(url);
+        const json = await response.json();
+        const values = json[0].meta;
+        msg.channel.send(Embeds.addField(name= title, value=values.id + "\n" + json[0].shortdef[0]));
+        }catch{
+            msg.reply("Yeah, sorry couldn't find that one :(");
+        }
+    };
 
     function setDelete(value)
     {
@@ -88,7 +101,7 @@ bot.on('message', msg=>{
             else if(args[1]=== "author")
             {
                 let description = "This is my first attempt at a discord bot that i began creating out of frustration with the lack of bots who teach a word a day. \n" +
-                "This current version does now features the 'word a day' function! Hooray!, soon it will be timestamped to produce one word a day, but not yet! As ever have fun and thanks " +
+                "This current version does now features the 'word a day' function! Hooray! Soon it will be timestamped to produce one word a day, but not yet! As ever have fun and thanks " +
                 "for using WordADay!"
                msg.channel.send(Embeds.addField(name= "About this bot", value=description)) 
             }
@@ -184,13 +197,14 @@ bot.on('message', msg=>{
             msg.channel.send(Embeds.addFields(
                 {name:"Command List", value:'All commands start with B!'},
                 {name:"Memes", value:"simp, jojo, opm"},
-                {name:"Functionality", value:"info, help, hello, clear, ping, code, word"}
+                {name:"Functionality", value:"info, help, hello, clear, ping, code, word, define"}
             ));
             break;
         
         case "code":
             const language = ["Java", "Python", "JS", "C++", "PHP", "HTML/ CSS"]
             msg.channel.send("Today you should write code in: " + language[getRandomInt(6)]);
+
         case "yes":
             if(sure == false)
             {
@@ -200,16 +214,19 @@ bot.on('message', msg=>{
             }
                 break;
         case "word":
-            const app_key = "75e25137-2b57-4012-8690-b7d8aec765f3";
-            const url = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${words[getRandomInt(500)]}?key=${app_key}`;
-            const asyncApiCall = async () => {
-                const response = await fetch(url)
-                const json = await response.json()
-                const values = json[0].meta
-                msg.channel.send(Embeds.addField(name= "The word of the day!", value=values.id + "\n" + json[0].shortdef[0]))
+            asyncApiCall(getRandomInt(568), "The word of the day!");
+            break;
+
+        case "define":
+            if(args[1])
+            {
+                asyncApiCall(args[1], "The definition of " + args[1] + " is:")
             }
-            asyncApiCall()
-    }
-})
+            else{
+                msg.channel.send("Please enter a word to be defined")
+            }
+        }
+    });
+
 
 bot.login(token);
