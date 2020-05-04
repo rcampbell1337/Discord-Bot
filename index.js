@@ -14,6 +14,7 @@ const request = require("request");
 const Discord = require('discord.js');
  const bot = new Discord.Client();
 
+
 // Sets up the bot for the apps
 const token = process.env.BOT_VAR;
 const prefix = "B!"
@@ -201,9 +202,8 @@ bot.on('message', msg=>{
             const app_id = "169b788f";
             const app_key = "f5ecfa4b0aad66687469e18ea3a2acd9";
             const word_id = "example";
-            let url = "https://od-api.oxforddictionaries.com:443/api/v2/entries/en-gb" + "/" + word_id;
+            let url = "https://od-api.oxforddictionaries.com:443/api/v2/entries/en-gb" + "/" + String.valueOf(word_id);
             const r = request.get(url, headers={app_id:app_id, app_key:app_key});
-            console.log(r);
     }
 })
 
