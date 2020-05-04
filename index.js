@@ -8,13 +8,13 @@
  */
  
  // Basic info for bot set up
+ 
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 require('dotenv').config();
-const request = require("request");
 const Discord = require('discord.js');
  const bot = new Discord.Client();
  const fetch = require('node-fetch');
-
+const words = require("./words");
 // Sets up the bot for the apps
 const token = process.env.BOT_VAR;
 const prefix = "B!"
@@ -53,7 +53,7 @@ bot.on('message', msg=>{
 	.setTitle('WordADay bot')
 	.setURL('https://www.youtube.com/channel/UCH_bkDYstaTtrHmDN-8Hb3w')
 	.setAuthor('Robbie C', 'https://i.pinimg.com/736x/3c/88/c8/3c88c8510028f627cf58792795629ed1.jpg', 'https://www.youtube.com/channel/UCH_bkDYstaTtrHmDN-8Hb3w')
-	.setDescription("A basic bot that'll read you a word a day!")
+	.setDescription("The bot that'll read you a word a day!")
     .setThumbnail('https://i.pinimg.com/736x/3c/88/c8/3c88c8510028f627cf58792795629ed1.jpg')
 	.setImage('https://upload.wikimedia.org/wikipedia/en/thumb/7/78/Bilbo_Baggins.jpg/200px-Bilbo_Baggins.jpg')
 	.setTimestamp()
@@ -88,7 +88,8 @@ bot.on('message', msg=>{
             else if(args[1]=== "author")
             {
                 let description = "This is my first attempt at a discord bot that i began creating out of frustration with the lack of bots who teach a word a day. \n" +
-                "This current version does not feature the 'learn a word a day' function, but i hope you can have fun with it anyways!"
+                "This current version does now features the 'word a day' function! Hooray!, soon it will be timestamped to produce one word a day, but not yet! As ever have fun and thanks " +
+                "for using WordADay!"
                msg.channel.send(Embeds.addField(name= "About this bot", value=description)) 
             }
             else{
@@ -183,7 +184,7 @@ bot.on('message', msg=>{
             msg.channel.send(Embeds.addFields(
                 {name:"Command List", value:'All commands start with B!'},
                 {name:"Memes", value:"simp, jojo, opm"},
-                {name:"Functionality", value:"info, help, hello, clear, ping, code"}
+                {name:"Functionality", value:"info, help, hello, clear, ping, code, word"}
             ));
             break;
         
@@ -200,14 +201,12 @@ bot.on('message', msg=>{
                 break;
         case "word":
             const app_key = "75e25137-2b57-4012-8690-b7d8aec765f3";
-            const url = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/voluminous?key=${app_key}`;
+            const url = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${words[getRandomInt(500)]}?key=${app_key}`;
             const asyncApiCall = async () => {
                 const response = await fetch(url)
                 const json = await response.json()
                 const values = json[0].meta
-                console.log(values.id)
-                console.log(json[0].shortdef[0])
-                
+                msg.channel.send(Embeds.addField(name= "The word of the day!", value=values.id + "\n" + json[0].shortdef[0]))
             }
             asyncApiCall()
     }
