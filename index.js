@@ -38,6 +38,7 @@ const version = "1.0.3";
 
 bot.on('message', msg=>{
 
+    // This function gets data using a dictionary api and relays it into an embed, using this function both word a day and define can be called.
     const asyncApiCall = async (word, title) => {
         try{
         const app_key = "75e25137-2b57-4012-8690-b7d8aec765f3";
@@ -51,15 +52,16 @@ bot.on('message', msg=>{
         }
     };
 
+    // Sets an amount of messages to be deleted which is then confirmed by using the B!yes function
     function setDelete(value)
     {
-        sure = false;
         deleter = value;
     }
     function getDelete()
     {
         return parseInt(deleter);
     }
+
     // Creates an embed option, abitlity to change aspects will be added later
     const Embeds = new Discord.MessageEmbed()
 	.setColor('#DD4444')
@@ -98,6 +100,8 @@ bot.on('message', msg=>{
             {
                 msg.channel.send("Version " + version);
             }
+
+            // Author info
             else if(args[1]=== "author")
             {
                 let description = "This is my first attempt at a discord bot that i began creating out of frustration with the lack of bots who teach a word a day. \n" +
@@ -105,6 +109,8 @@ bot.on('message', msg=>{
                 "for using WordADay!"
                msg.channel.send(Embeds.addField(name= "About this bot", value=description)) 
             }
+
+            // Error handling
             else{
                 msg.channel.send("Enter a second argument: author or version.");
             }
@@ -153,7 +159,7 @@ bot.on('message', msg=>{
             msg.channel.send(gifs[getRandomInt(6)]);
             break;
         
-        // Send a opm gif
+        // Send a One Punch Man gif
         case "opm":
             gifs = [
             "https://media3.giphy.com/media/4j1nGRNRIa3e0/source.gif",
@@ -165,6 +171,7 @@ bot.on('message', msg=>{
             ];
             msg.channel.send(gifs[getRandomInt(6)]);
             break;
+
         // Responds a hello to the person who said it
         case "hello":
             msg.channel.send('Hey ' + selfUser + ", What's up!");
@@ -197,26 +204,33 @@ bot.on('message', msg=>{
             msg.channel.send(Embeds.addFields(
                 {name:"Command List", value:'All commands start with B!'},
                 {name:"Memes", value:"simp, jojo, opm"},
-                {name:"Functionality", value:"info, help, hello, clear, ping, code, word, define"}
+                {name:"Functionality", value:"info, help, hello, clear, ping, code, word, define, bin"}
             ));
             break;
         
+            // Allows the user to be given a programming language for the day
         case "code":
             const language = ["Java", "Python", "JS", "C++", "PHP", "HTML/ CSS"]
             msg.channel.send("Today you should write code in: " + language[getRandomInt(6)]);
+            break;
 
+            // Delete messages confirmation
         case "yes":
-            if(sure == false)
-            {
+                try{
                 msg.channel.bulkDelete(getDelete() + 3);
-                sure == true;
                 deleter = 0;
-            }
                 break;
+                }catch{
+                    msg.reply("Please enter a number of messages to be deleted.")
+                    break;
+                }
+
+            // Gives the user a word on request
         case "word":
             asyncApiCall(getRandomInt(568), "The word of the day!");
             break;
 
+            // Defines a word the user inputs
         case "define":
             if(args[1])
             {
@@ -225,8 +239,41 @@ bot.on('message', msg=>{
             else{
                 msg.channel.send("Please enter a word to be defined")
             }
+
+            // Converts a decimal value into a binary number
+        case "bin":
+            function reverse(s){
+                return s.split("").reverse().join("");
+            }
+            let bin = ""
+            if(args[1])
+            {
+                for (decimal = parseInt(args[1]); decimal >= 0; Math.floor(decimal -= decimal / 2))
+                {
+                    if (decimal < 1)
+                    {
+                        break;
+                    }
+                    else if (Math.floor(decimal) % 2 == 0)
+                    {
+                        bin = bin + "0"
+                    }
+                    else
+                    {
+                        bin = bin + "1"
+                    }
+                }
+                msg.channel.send("The binary value of your number is " + reverse(bin))
+                break;
+            }
+                else
+            {
+                msg.channel.send("Please enter an integer value.")
+                break;
+            }
         }
+        
     });
 
-
+// Allows the bot to be usable on Discord
 bot.login(token);
