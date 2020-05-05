@@ -235,9 +235,11 @@ bot.on('message', msg=>{
             if(args[1])
             {
                 asyncApiCall(args[1], "The definition of " + args[1] + " is:")
+                break;
             }
             else{
                 msg.channel.send("Please enter a word to be defined")
+                break;
             }
 
             // Converts a decimal value into a binary number
