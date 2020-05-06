@@ -280,26 +280,28 @@ bot.on('message', msg => {
         case "hex":
             let hex = "";
             if (args[1]) {
-                for (decimal = parseInt(args[1]); decimal >= 0; decimal -= 1) {
-                    if (decimal < 1) {
-                        hex = "0";
-                        break;
-                    }
-                    if (decimal % 16 == 0) {
-                        value++;
-                        var hexer = parseInt(value, 10).toString(16).toUpperCase();
-                        console.log(value)
-                    }
-                    else if (decimal < 16) {
-                        if (value * 16 + decimal == args[1]) {
-                            var hexa = parseInt(decimal, 10).toString(16).toUpperCase();
-                            hex += String(hexa);
+                    for (decimal = parseInt(args[1]); decimal >= 0; decimal -= 1) {
+                        if (decimal < 1) {
+                            hex = "0";
                             break;
                         }
+                        if (decimal % 16 == 0) {
+                            value++;
+                            var hexer = parseInt(value, 10).toString(16).toUpperCase();
+                        }
+                        else if (decimal < 16) {
+                            if (value * 16 + decimal == args[1]) {
+                                var hexa = parseInt(decimal, 10).toString(16).toUpperCase();
+                                hex += String(hexa);
+                                break;
+                            }
+                        }
                     }
-                }
-                msg.channel.send("The hexadecimal value of your number is " + hexer + hex)
-                break;
+                    msg.channel.send("The hexadecimal value of your number is " + hexer + hex)
+                    break;
+            }
+            else{
+                msg.channel.send("Please input a number to convert.")
             }
     }
 });
