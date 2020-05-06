@@ -221,7 +221,7 @@ bot.on('message', msg => {
 
         // Gives the user a word on request
         case "word":
-            asyncApiCall(getRandomInt(568), "The word of the day!");
+            asyncApiCall(words[getRandomInt(568)], "The word of the day!");
             break;
 
         // Defines a word the user inputs
@@ -256,59 +256,49 @@ bot.on('message', msg => {
                 msg.channel.send("The binary value of your number is " + reverse(bin))
                 break;
             }
-            case "oct":
-                let oct = "";
-            if (args[1]) 
-            {
-                for (decimal = parseInt(args[1]); decimal >= 0; decimal -= 1) 
-                {
-                    if (value == 0)
-                    {
-                        value = "";
-                    }
+        case "oct":
+            let oct = "";
+            if (args[1]) {
+                for (decimal = parseInt(args[1]); decimal >= 0; decimal -= 1) {
                     if (decimal < 1) {
+                        oct = "0";
                         break;
                     }
-                    if (decimal % 8 == 0){
+                    if (decimal % 8 == 0) {
                         value++;
                     }
-                    else if (decimal < 8){
-                        if(value * 8 + decimal == args[1])
-                        {
-                        oct += String(decimal);
-                        break;
+                    else if (decimal < 8) {
+                        if (value * 8 + decimal == args[1]) {
+                            oct += String.valueOf(decimal);
+                            break;
                         }
                     }
                 }
                 msg.channel.send("The octal value of your number is " + String(value) + oct)
                 break;
             }
-            case "hex":
-                let hex = "";
-            if (args[1]) 
-            {
-                for (decimal = parseInt(args[1]); decimal >= 0; decimal -= 1) 
-                {
-                    if (value == 0)
-                    {
-                        value = "";
-                    }
+        case "hex":
+            let hex = "";
+            if (args[1]) {
+                for (decimal = parseInt(args[1]); decimal >= 0; decimal -= 1) {
                     if (decimal < 1) {
+                        hex = "0";
                         break;
                     }
-                    if (decimal % 16 == 0){
+                    if (decimal % 16 == 0) {
                         value++;
+                        var hexer = parseInt(value, 10).toString(16).toUpperCase();
+                        console.log(value)
                     }
-                    else if (decimal < 16){
-                        if(value * 16 + decimal == args[1])
-                        {
-                        var hexa = parseInt(decimal, 10).toString(16).toUpperCase();
-                        hex += String(hexa);
-                        break;
+                    else if (decimal < 16) {
+                        if (value * 16 + decimal == args[1]) {
+                            var hexa = parseInt(decimal, 10).toString(16).toUpperCase();
+                            hex += String(hexa);
+                            break;
                         }
                     }
                 }
-                msg.channel.send("The hexadecimal value of your number is " + String(value) + hex)
+                msg.channel.send("The hexadecimal value of your number is " + hexer + hex)
                 break;
             }
     }
