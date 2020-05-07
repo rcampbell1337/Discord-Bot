@@ -1,1 +1,1 @@
-worker: npm:log.js
+web: node index.js
