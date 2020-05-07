@@ -271,7 +271,7 @@ bot.on('message', msg => {
 
                     else if (decimal < 8) {
                         if (value * 8 + decimal == args[1]) {
-                            oct += String.valueOf(decimal);
+                            oct += String(decimal);
                             break;
                         }
                     }
@@ -289,29 +289,29 @@ bot.on('message', msg => {
             let hexer = "";
             if (args[1]) 
             {
-                    for (decimal = parseInt(args[1]); decimal >= 0; decimal -= 1) 
-                    {
-                        if (decimal < 1) {
-                            hex = "0";
-                            break;
-                        }
-                        if (decimal % 16 == 0) {
-                            value++;
-                            if (value >= 1)
-                            {
-                                hexer = parseInt(value, 10).toString(16).toUpperCase();
-                            }
-                        }
-                        else if (decimal < 16) {
-                            if (value * 16 + decimal == args[1]) {
-                                var hexa = parseInt(decimal, 10).toString(16).toUpperCase();
-                                hex += String(hexa);
-                                break;
-                            }
+                for (decimal = parseInt(args[1]); decimal >= 0; decimal -= 1) 
+                {
+                    if (decimal < 1) {
+                        hex = "0";
+                        break;
+                    }
+                    if (decimal % 16 == 0) {
+                        value++;
+                        if (value >= 1)
+                        {
+                            hexer = parseInt(value, 10).toString(16).toUpperCase();
                         }
                     }
-                    msg.channel.send("The hexadecimal value of your number is " + hexer + hex)
-                    break;
+                    else if (decimal < 16) {
+                        if (value * 16 + decimal == args[1]) {
+                            var hexa = parseInt(decimal, 10).toString(16).toUpperCase();
+                            hex += String(hexa);
+                            break;
+                        }
+                    }
+                }
+                msg.channel.send("The hexadecimal value of your number is " + hexer + hex)
+                break;
             }
             else{
                 msg.channel.send("Please input a number to convert.")
