@@ -287,7 +287,13 @@ bot.on('message', msg => {
                         }
                         if (decimal % 16 == 0) {
                             value++;
-                            var hexer = parseInt(value, 10).toString(16).toUpperCase();
+                            if (value >= 1)
+                            {
+                                var hexer = parseInt(value, 10).toString(16).toUpperCase();
+                            }
+                            else{
+                                hexer = "";
+                            }
                         }
                         else if (decimal < 16) {
                             if (value * 16 + decimal == args[1]) {
