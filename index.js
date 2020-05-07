@@ -263,16 +263,17 @@ bot.on('message', msg => {
                     if (decimal % 8 == 0) {
                         value++;
                     }
+                    else if (decimal < 1) {
+                        oct = "0";
+                        break;
+                    }
                     else if (decimal < 8) {
                         if (value * 8 + decimal == args[1]) {
                             oct += String.valueOf(decimal);
                             break;
                         }
                     }
-                    if (decimal < 1) {
-                        oct = "0";
-                        break;
-                    }
+                    
                 }
                 msg.channel.send("The octal value of your number is " + String(value) + oct)
                 break;
