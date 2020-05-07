@@ -264,7 +264,7 @@ bot.on('message', msg => {
                         value++;
                     }
                     else if (decimal < 1) {
-                        oct = "0";
+                        oct += "0";
                         break;
                     }
                     else if (decimal < 8) {
