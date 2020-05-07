@@ -280,6 +280,7 @@ bot.on('message', msg => {
             }
         case "hex":
             let hex = "";
+            let hexer = "";
             if (args[1]) {
                     for (decimal = parseInt(args[1]); decimal >= 0; decimal -= 1) {
                         if (decimal < 1) {
@@ -290,10 +291,8 @@ bot.on('message', msg => {
                             value++;
                             if (value >= 1)
                             {
-                                var hexer = parseInt(value, 10).toString(16).toUpperCase();
-                            }
-                            else{
-                                var hexer = "";
+                                hexer = parseInt(value, 10).toString(16).toUpperCase();
+                                break;
                             }
                         }
                         else if (decimal < 16) {
