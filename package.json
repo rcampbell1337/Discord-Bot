@@ -4,7 +4,8 @@
   "description": "A bot on discord",
   "main": "index.js",
   "scripts": {
-    "test": "jest --config=./jest.config.json --coverage"
+    "test": "jest --config=./jest.config.json --coverage",
+    "start": "node ./index.js"
   },
   "author": "Robbie_c",
   "license": "ISC",
