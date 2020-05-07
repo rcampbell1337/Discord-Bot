@@ -258,15 +258,17 @@ bot.on('message', msg => {
             }
         case "oct":
             let oct = "";
-            if (args[1]) {
+            if (args[1]) 
+            {
                 for (decimal = parseInt(args[1]); decimal >= 0; decimal -= 1) {
+                    if (decimal < 1) {
+                        oct = "0";
+                        break;
+                    }
                     if (decimal % 8 == 0) {
                         value++;
                     }
-                    else if (decimal < 1) {
-                        oct += "0";
-                        break;
-                    }
+
                     else if (decimal < 8) {
                         if (value * 8 + decimal == args[1]) {
                             oct += String.valueOf(decimal);
@@ -278,11 +280,17 @@ bot.on('message', msg => {
                 msg.channel.send("The octal value of your number is " + String(value) + oct)
                 break;
             }
+            else{
+                msg.channel.send("Please enter a second argument.")
+                break;
+            }
         case "hex":
             let hex = "";
             let hexer = "";
-            if (args[1]) {
-                    for (decimal = parseInt(args[1]); decimal >= 0; decimal -= 1) {
+            if (args[1]) 
+            {
+                    for (decimal = parseInt(args[1]); decimal >= 0; decimal -= 1) 
+                    {
                         if (decimal < 1) {
                             hex = "0";
                             break;
@@ -307,6 +315,7 @@ bot.on('message', msg => {
             }
             else{
                 msg.channel.send("Please input a number to convert.")
+                break;
             }
     }
 });
