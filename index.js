@@ -292,7 +292,6 @@ bot.on('message', msg => {
                             if (value >= 1)
                             {
                                 hexer = parseInt(value, 10).toString(16).toUpperCase();
-                                break;
                             }
                         }
                         else if (decimal < 16) {
