@@ -262,7 +262,6 @@ bot.on('message', msg => {
                 for (decimal = parseInt(args[1]); decimal >= 0; decimal -= 1) {
                     if (decimal % 8 == 0) {
                         value++;
-                        break;
                     }
                     else if (decimal < 8) {
                         if (value * 8 + decimal == args[1]) {
