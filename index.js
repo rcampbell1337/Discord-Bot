@@ -28,9 +28,11 @@ Object.defineProperty(Array.prototype, 'flat', {
     }
 });
 
+
 // Tells me the bot is running
 bot.on('ready', () => {
     console.log("This bot is online");
+    
 });
 
 // Version can be updated when neccessary
@@ -51,7 +53,7 @@ bot.on('message', msg => {
             msg.reply("Yeah, sorry couldn't find that one :(");
         }
     };
-
+    
     // Sets an amount of messages to be deleted which is then confirmed by using the B!yes function
     function setDelete(value) {
         deleter = value;
@@ -59,6 +61,12 @@ bot.on('message', msg => {
     function getDelete() {
         return parseInt(deleter);
     }
+
+    // Gets a random number
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
+    
 
     // Creates an embed option, abitlity to change aspects will be added later
     const Embeds = new Discord.MessageEmbed()
@@ -72,9 +80,6 @@ bot.on('message', msg => {
         .setTimestamp()
         .setFooter('Have fun with it!', 'https://i.pinimg.com/736x/3c/88/c8/3c88c8510028f627cf58792795629ed1.jpg');
 
-    function getRandomInt(max) {
-        return Math.floor(Math.random() * Math.floor(max));
-    }
     // Refers to the user requesting the response.
     let selfUser = msg.member.user.username;
 
@@ -85,14 +90,16 @@ bot.on('message', msg => {
     let present = new Date();
     let time = present.getMilliseconds();
 
-    // For numerical functions
-    let value = 0;
-
     // Allows for a ping to be send and be fed back to the bot.
     const Http = new XMLHttpRequest();
     const url = 'https://jsonplaceholder.typicode.com/posts';
     Http.open("GET", url);
     Http.send();
+
+    if (present.getHours() == 16)
+    {
+        asyncApiCall(words[getRandomInt(568), "Your word today is: "])
+    }
     switch (args[0]) {
         // This is the current version number
         case "info":
@@ -198,7 +205,7 @@ bot.on('message', msg => {
                 { name: "Command List", value: 'All commands start with B!' },
                 { name: "Memes", value: "simp, jojo, opm" },
                 { name: "Numerical functions", value: "bin, oct, hex" },
-                { name: "Functionality", value: "info, help, hello, clear, ping, code, word, define" }
+                { name: "Functionality", value: "info, help, hello, clear, ping, code, define" }
             ));
             break;
 
@@ -218,11 +225,6 @@ bot.on('message', msg => {
                 msg.reply("Please enter a number of messages to be deleted.")
                 break;
             }
-
-        // Gives the user a word on request
-        case "word":
-            asyncApiCall(words[getRandomInt(568)], "The word of the day!");
-            break;
 
         // Defines a word the user inputs
         case "define":
