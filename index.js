@@ -96,10 +96,6 @@ bot.on('message', msg => {
     Http.open("GET", url);
     Http.send();
 
-    if (present.getHours() == 16)
-    {
-        asyncApiCall(words[getRandomInt(568), "Your word today is: "])
-    }
     switch (args[0]) {
         // This is the current version number
         case "info":
