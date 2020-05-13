@@ -270,7 +270,7 @@ bot.on('message', msg => {
             let hexer = "";
             if (args[1]) 
             {
-                hexer = parseInt(args[1]).toString(16).toUpperCase;
+                hexer = parseInt((args[1]).toString(16).toUpperCase);
                 msg.channel.send("The hexadecimal value of your number is " + hexer)
                 break;
             }
