@@ -67,7 +67,7 @@ bot.on('message', msg => {
         return Math.floor(Math.random() * Math.floor(max));
     }
 
-    const wordAday = setInterval(function () {
+    const wordAday = setTimeout(function () {
         asyncApiCall(words[getRandomInt(568)], "The word today is:")
     }, 86400000);
 
@@ -296,8 +296,10 @@ bot.on('message', msg => {
             }
 
         case "word":
-            wordAday;
-            break;
+                console.log("Word a day is now on")
+                wordAday;
+                msg.channel.send("You have turned on wordaday! A new word will appear in 24 hours!");
+                break;
     }
         
 });
