@@ -66,7 +66,10 @@ bot.on('message', msg => {
     function getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max));
     }
-    
+
+    const wordAday = setInterval(function () {
+        asyncApiCall(words[getRandomInt(568)], "The word today is:")
+    }, 86400000);
 
     // Creates an embed option, abitlity to change aspects will be added later
     const Embeds = new Discord.MessageEmbed()
@@ -108,7 +111,8 @@ bot.on('message', msg => {
                 let description = "This is my first attempt at a discord bot that i began creating out of frustration with the lack of bots who teach a word a day. \n" +
                     "This current version does now features the 'word a day' function! Hooray! Soon it will be timestamped to produce one word a day, but not yet! As ever have fun and thanks " +
                     "for using WordADay!"
-                msg.channel.send(Embeds.addField(name = "About this bot", value = description))
+                    wordAday;
+                    msg.channel.send(Embeds.addField(name = "About this bot", value = description))
             }
 
             // Error handling
@@ -270,7 +274,7 @@ bot.on('message', msg => {
             let hexer = "";
             if (args[1]) 
             {
-                hexer = parseInt((args[1]).toString(16).toUpperCase);
+                hexer = parseInt(args[1]).toString(16).toUpperCase();
                 msg.channel.send("The hexadecimal value of your number is " + hexer)
                 break;
             }
@@ -290,7 +294,12 @@ bot.on('message', msg => {
                 msg.channel.send("Please input a number to convert.");
                 break;
             }
+
+        case "word":
+            wordAday;
+            break;
     }
+        
 });
 
 // Allows the bot to be usable on Discord
