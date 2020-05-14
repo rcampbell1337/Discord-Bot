@@ -295,6 +295,7 @@ bot.on('message', msg => {
                 asyncApiCall(words[getRandomInt(568)], "The word today is:")
             }, 86400000);
             wordAday;
+            msg.channel.send("Wordaday is now turned on.");
             break;
     }
         
