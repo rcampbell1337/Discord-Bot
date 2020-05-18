@@ -290,7 +290,7 @@ bot.on('message', msg => {
             }
 
         case "word":
-            const wordAday = setTimeout(function () {
+            const wordAday = setInterval(function () {
                 asyncApiCall(words[getRandomInt(568)], "The word today is:")
             }, 86400000);
             wordAday;
