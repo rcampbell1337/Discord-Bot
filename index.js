@@ -200,7 +200,8 @@ bot.on('message', msg => {
                 { name: "Command List", value: 'All commands start with B!' },
                 { name: "Memes", value: "simp, jojo, opm" },
                 { name: "Numerical functions", value: "bin, oct, hex" },
-                { name: "Functionality", value: "info, help, hello, clear, ping, code, define" }
+                { name: "Functionality", value: "info, help, hello, clear, ping, code, define" },
+                { name: "Turn on wordaday!", value: "word" }
             ));
             break;
 
