@@ -18,6 +18,7 @@ const words = require("./words");
 // Sets up the bot for the apps
 const token = process.env.BOT_VAR;
 const prefix = "B!"
+let boton = false;
 
 // Overwrite the flat function not available to discord current version
 Object.defineProperty(Array.prototype, 'flat', {
@@ -290,12 +291,19 @@ bot.on('message', msg => {
             }
 
         case "word":
+        if (boton == false)
+        {
             const wordAday = setInterval(function () {
                 asyncApiCall(words[getRandomInt(568)], "The word today is:")
             }, 86400000);
             wordAday;
             msg.channel.send("Wordaday is now turned on.");
+            boton = true;
             break;
+        }
+        else{
+            msg.channel.send("Wordaday is already turned on");
+        }
     }
         
 });
