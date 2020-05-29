@@ -18,7 +18,7 @@ const words = require("./words");
 // Sets up the bot for the apps
 const token = process.env.BOT_VAR;
 const prefix = "B!"
-let boton = false;
+let boton = 0;
 
 // Overwrite the flat function not available to discord current version
 Object.defineProperty(Array.prototype, 'flat', {
@@ -210,7 +210,9 @@ bot.on('message', msg => {
             const language = ["Java", "Python", "JS", "C++", "PHP", "HTML/ CSS"]
             msg.channel.send("Today you should write code in: " + language[getRandomInt(6)]);
             break;
-
+        case "thanks":
+            msg.channel.send("You're welcome chief!");
+            break;
         // Delete messages confirmation
         case "yes":
             try {
@@ -292,15 +294,14 @@ bot.on('message', msg => {
             }
 
         case "word":
-        if (boton == false)
+        if (boton < 3)
         {
             const wordAday = setInterval(function () {
                 asyncApiCall(words[getRandomInt(568)], "The word today is:")
             }, 86400000);
             wordAday;
             msg.channel.send("Wordaday is now turned on.");
-            boton = true;
-            break;
+            boton += 1;
         }
         else{
             msg.channel.send("Wordaday is already turned on");
