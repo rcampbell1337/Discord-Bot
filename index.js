@@ -37,7 +37,7 @@ bot.on('ready', () => {
 });
 
 // Version can be updated when neccessary
-const version = "1.0.3";
+const version = "1.0.4";
 
 bot.on('message', msg => {
 
@@ -49,7 +49,7 @@ bot.on('message', msg => {
             const response = await fetch(url);
             const json = await response.json();
             const values = json[0].meta;
-            return msg.channel.send(Embeds.addField(name = title, value = values.id + "\n" + json[0].shortdef[0]));
+            return msg.channel.send(Embeds.addField(name = title, value = values.id + "\n" + json[0].hwi.prs[0].mw + "\n" + json[0].shortdef[0]));
         } catch{
             msg.reply("Yeah, sorry couldn't find that one :(");
         }
@@ -294,18 +294,12 @@ bot.on('message', msg => {
             }
 
         case "word":
-        if (boton < 3)
-        {
             const wordAday = setInterval(function () {
                 asyncApiCall(words[getRandomInt(568)], "The word today is:")
             }, 86400000);
             wordAday;
             msg.channel.send("Wordaday is now turned on.");
             boton += 1;
-        }
-        else{
-            msg.channel.send("Wordaday is already turned on");
-        }
     }
         
 });
