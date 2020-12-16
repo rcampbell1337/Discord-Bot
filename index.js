@@ -304,19 +304,12 @@ bot.on('message', msg => {
 
         // The illustrious wordaday function!
         case "word":
-            if (getIsTurnedOn() == false) {
                 const wordAday = setInterval(function () {
                     asyncApiCall(words[getRandomInt(568)], "The word today is:")
                 }, 84000000);
                 wordAday;
                 msg.channel.send("Wordaday is now turned on.");
-                setIsTurnedOn(true);
                 break;
-            }
-            else {
-                msg.channel.send("WordADay is already turned on")
-                break;
-            }
 
         case "slur":
             async function scrapeProduct(url) {
