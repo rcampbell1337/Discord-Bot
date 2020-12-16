@@ -43,6 +43,9 @@ const version = "1.1.0 (we've been through 5 versions now!)";
 // For the rock game
 let rock = "null";
 
+// Is wordaday on
+let turned_on = false;
+
 bot.on('message', msg => {
 
     // This function gets data using a dictionary api and relays it into an embed, using this function both word a day and define can be called.
@@ -303,12 +306,17 @@ bot.on('message', msg => {
 
         // The illustrious wordaday function!
         case "word":
-            const wordAday = setInterval(function () {
-                asyncApiCall(words[getRandomInt(568)], "The word today is:")
-            }, 86400000);
-            wordAday;
-            msg.channel.send("Wordaday is now turned on.");
-            break;
+            if (!turned_on) {
+                const wordAday = setInterval(function () {
+                    asyncApiCall(words[getRandomInt(568)], "The word today is:")
+                }, 86400000);
+                wordAday;
+                msg.channel.send("Wordaday is now turned on.");
+                break;
+            }
+            else {
+                msg.channel.send("WordADay is already turned on")
+            }
 
         case "slur":
             async function scrapeProduct(url) {
