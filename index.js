@@ -11,6 +11,7 @@
 
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 require('dotenv').config();
+const puppeteer = require("puppeteer")
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 const fetch = require('node-fetch');
@@ -18,7 +19,7 @@ const words = require("./words");
 // Sets up the bot for the apps
 const token = process.env.BOT_VAR;
 const prefix = "B!"
-let boton = 0;
+
 
 // Overwrite the flat function not available to discord current version
 Object.defineProperty(Array.prototype, 'flat', {
@@ -33,11 +34,14 @@ Object.defineProperty(Array.prototype, 'flat', {
 // Tells me the bot is running
 bot.on('ready', () => {
     console.log("This bot is online");
-    
+
 });
 
 // Version can be updated when neccessary
 const version = "1.0.4";
+
+// For the rock game
+let rock = "null";
 
 bot.on('message', msg => {
 
@@ -50,17 +54,24 @@ bot.on('message', msg => {
             const json = await response.json();
             const values = json[0].meta;
             return msg.channel.send(Embeds.addField(name = title, value = values.id + "\n" + json[0].hwi.prs[0].mw + "\n" + json[0].shortdef[0]));
-        } catch{
+        } catch {
             msg.reply("Yeah, sorry couldn't find that one :(");
         }
     };
-    
+
     // Sets an amount of messages to be deleted which is then confirmed by using the B!yes function
     function setDelete(value) {
         deleter = value;
     }
     function getDelete() {
         return parseInt(deleter);
+    }
+
+    function setRock(value) {
+        rock = value;
+    }
+    function getRock() {
+        return rock;
     }
     // Gets a random number
     function getRandomInt(max) {
@@ -106,8 +117,8 @@ bot.on('message', msg => {
                 let description = "This is my first attempt at a discord bot that i began creating out of frustration with the lack of bots who teach a word a day. \n" +
                     "This current version does now features the 'word a day' function! Hooray! Soon it will be timestamped to produce one word a day, but not yet! As ever have fun and thanks " +
                     "for using WordADay!"
-                    wordAday;
-                    msg.channel.send(Embeds.addField(name = "About this bot", value = description))
+                wordAday;
+                msg.channel.send(Embeds.addField(name = "About this bot", value = description))
             }
 
             // Error handling
@@ -200,8 +211,9 @@ bot.on('message', msg => {
                 { name: "Command List", value: 'All commands start with B!' },
                 { name: "Memes", value: "simp, jojo, opm" },
                 { name: "Numerical functions", value: "bin, oct, hex" },
-                { name: "Functionality", value: "info, help, hello, clear, ping, code, define" },
-                { name: "Turn on wordaday!", value: "word" }
+                { name: "Functionality", value: "info, help, hello, clear, ping, code, define, slur" },
+                { name: "Turn on wordaday!", value: "word" },
+                { name: "Play a game!", value: "rock" }
             ));
             break;
 
@@ -219,7 +231,7 @@ bot.on('message', msg => {
                 msg.channel.bulkDelete(getDelete() + 3);
                 deleter = 0;
                 break;
-            } catch{
+            } catch {
                 msg.reply("Please enter a number of messages to be deleted.")
                 break;
             }
@@ -258,50 +270,100 @@ bot.on('message', msg => {
             }
         case "oct":
             let oct = "";
-            if (args[1]) 
-            {
+            if (args[1]) {
                 oct = parseInt(args[1]).toString(8);
                 msg.channel.send("The octal value of your number is " + oct);
                 break;
             }
-            else{
+            else {
                 msg.channel.send("Please enter a second argument.")
                 break;
             }
         case "hex":
             let hexer = "";
-            if (args[1]) 
-            {
+            if (args[1]) {
                 hexer = parseInt(args[1]).toString(16).toUpperCase();
                 msg.channel.send("The hexadecimal value of your number is " + hexer)
                 break;
             }
-            else{
+            else {
                 msg.channel.send("Please input a number to convert.")
                 break;
             }
         case "dec":
-            if (args[1])
-            {
+            if (args[1]) {
                 let digit = parseInt(args[1], 2)
                 msg.channel.send("Your decimal number is " + String(digit));
                 break;
             }
-            else
-            {
+            else {
                 msg.channel.send("Please input a number to convert.");
                 break;
             }
 
+        // The illustrious wordaday function!
         case "word":
             const wordAday = setInterval(function () {
                 asyncApiCall(words[getRandomInt(568)], "The word today is:")
             }, 86400000);
             wordAday;
             msg.channel.send("Wordaday is now turned on.");
-            boton += 1;
+            break;
+
+        case "slur":
+            async function scrapeProduct(url) {
+                const browser = await puppeteer.launch();
+                const page = await browser.newPage();
+                await page.goto(url);
+                x = getRandomInt(1000)
+                const [el] = await page.$x(`//*[@id="slur_${x}"]`);
+                const txt = await el.getProperty("textContent")
+                const rawTxt = await txt.jsonValue();
+                msg.channel.send(rawTxt);
+                msg.channel.send("https://media1.tenor.com/images/c2aefb6fe8b79617476f6367ecde0365/tenor.gif?itemid=10354060")
+                browser.close();
+            }
+            scrapeProduct("http://www.rsdb.org/full")
+            break;
+
+        case "rock":
+            async function newProduct(url) {
+                puppeteer.launch({ignoreDefaultArgs: ['--disable-extensions']}).then(async browser => {
+                    const page = await browser.newPage();
+                    await page.goto(url);
+                    const text = await page.evaluate(() => Array.from(document.querySelectorAll('.col3s'), element => element.textContent));
+                    const image = await page.evaluate(() => Array.from(document.querySelectorAll('.col3s'), element => element.getElementsByTagName("img")[0].src));
+                    let x = getRandomInt(text.length)
+                    let newImageSize = image[x]
+                    msg.channel.send(Embeds.setImage(newImageSize).addFields(
+                        { name: "Guess the rock!!!", value: "WHAT COULD IT BE?! (Type your guess after the B!guess keyword!)" }
+                    ));
+                    setRock(text[x]);
+                    console.log(getRock())
+                    browser.close();
+                });
+            }
+            newProduct("https://geology.com/rocks/");
+            break;
+
+        case "guess":
+            if (getRock() == "null") {
+                msg.channel.send("Please Guess a Rock First...")
+                break;
+            }
+            else if (args.slice(1).join("").toLowerCase == getRock().split(" ").join("").toLowerCase) {
+                msg.channel.send("Congratulations! The rock is " + getRock());
+                setRock("null");
+                break;
+            }
+            else {
+                msg.channel.send("OOOOF Close but no cigar! The rock was " + getRock());
+                setRock("null");
+                break;
+            }
+
     }
-        
+
 });
 
 // Allows the bot to be usable on Discord
