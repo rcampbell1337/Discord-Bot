@@ -328,20 +328,19 @@ bot.on('message', msg => {
 
         case "rock":
             async function newProduct(url) {
-                puppeteer.launch({ ignoreDefaultArgs: ['--disable-extensions'] }).then(async browser => {
-                    const page = await browser.newPage();
-                    await page.goto(url);
-                    const text = await page.evaluate(() => Array.from(document.querySelectorAll('.col3s'), element => element.textContent));
-                    const image = await page.evaluate(() => Array.from(document.querySelectorAll('.col3s'), element => element.getElementsByTagName("img")[0].src));
-                    let x = getRandomInt(text.length)
-                    let newImageSize = image[x]
-                    msg.channel.send(Embeds.setImage(newImageSize).addFields(
-                        { name: "Guess the rock!!!", value: "WHAT COULD IT BE?! (Type your guess after the B!guess keyword!)" }
-                    ));
-                    setRock(text[x]);
-                    console.log(getRock())
-                    browser.close();
-                });
+                const browser = await puppeteer.launch();
+                const page = await browser.newPage();
+                await page.goto(url);
+                const text = await page.evaluate(() => Array.from(document.querySelectorAll('.col3s'), element => element.textContent));
+                const image = await page.evaluate(() => Array.from(document.querySelectorAll('.col3s'), element => element.getElementsByTagName("img")[0].src));
+                let x = getRandomInt(text.length)
+                let newImageSize = image[x]
+                msg.channel.send(Embeds.setImage(newImageSize).addFields(
+                    { name: "Guess the rock!!!", value: "WHAT COULD IT BE?! (Type your guess after the B!guess keyword!)" }
+                ));
+                setRock(text[x]);
+                console.log(getRock())
+                browser.close();
             }
             newProduct("https://geology.com/rocks/");
             break;
