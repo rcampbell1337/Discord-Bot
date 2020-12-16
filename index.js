@@ -62,19 +62,6 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-function setIsTurnedOn(value)
-{
-    turned_on = value;
-}
-
-function getIsTurnedOn()
-{
-    return turned_on;
-}
-
-// Is wordaday on
-let turned_on = false;
-
 bot.on('message', msg => {
 
     // This function gets data using a dictionary api and relays it into an embed, using this function both word a day and define can be called.
@@ -85,7 +72,7 @@ bot.on('message', msg => {
             const response = await fetch(url);
             const json = await response.json();
             const values = json[0].meta;
-            return msg.channel.send(Embeds.setTitle("Your word today: " + title).setDescription(value = values.id + "\n" + json[0].hwi.prs[0].mw + "\n" + json[0].shortdef[0]));
+            return msg.channel.send(Embeds.setTitle(title).setDescription(value = values.id + "\n" + json[0].hwi.prs[0].mw + "\n" + json[0].shortdef[0]));
         } catch {
             msg.reply("Yeah, sorry couldn't find that one :(");
         }
@@ -320,7 +307,7 @@ bot.on('message', msg => {
             if (getIsTurnedOn() == false) {
                 const wordAday = setInterval(function () {
                     asyncApiCall(words[getRandomInt(568)], "The word today is:")
-                }, 84000);
+                }, 84000000);
                 wordAday;
                 msg.channel.send("Wordaday is now turned on.");
                 setIsTurnedOn(true);
