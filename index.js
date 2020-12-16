@@ -38,7 +38,7 @@ bot.on('ready', () => {
 });
 
 // Version can be updated when neccessary
-const version = "1.0.4";
+const version = "1.1.0 (we've been through 5 versions now!)";
 
 // For the rock game
 let rock = "null";
@@ -328,7 +328,7 @@ bot.on('message', msg => {
 
         case "rock":
             async function newProduct(url) {
-                puppeteer.launch({ignoreDefaultArgs: ['--disable-extensions']}).then(async browser => {
+                puppeteer.launch({ ignoreDefaultArgs: ['--disable-extensions'] }).then(async browser => {
                     const page = await browser.newPage();
                     await page.goto(url);
                     const text = await page.evaluate(() => Array.from(document.querySelectorAll('.col3s'), element => element.textContent));
@@ -348,7 +348,7 @@ bot.on('message', msg => {
 
         case "guess":
             if (getRock() == "null") {
-                msg.channel.send("Please Guess a Rock First...")
+                msg.channel.send("Please ask for a Rock First...")
                 break;
             }
             else if (args.slice(1).join("").toLowerCase == getRock().split(" ").join("").toLowerCase) {
