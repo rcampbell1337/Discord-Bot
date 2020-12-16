@@ -312,10 +312,12 @@ bot.on('message', msg => {
                 }, 86400000);
                 wordAday;
                 msg.channel.send("Wordaday is now turned on.");
+                turned_on = true;
                 break;
             }
             else {
                 msg.channel.send("WordADay is already turned on")
+                break;
             }
 
         case "slur":
