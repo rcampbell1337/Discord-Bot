@@ -43,6 +43,35 @@ const version = "1.1.0 (we've been through 5 versions now!)";
 // For the rock game
 let rock = "null";
 
+// Sets an amount of messages to be deleted which is then confirmed by using the B!yes function
+function setDelete(value) {
+    deleter = value;
+}
+function getDelete() {
+    return parseInt(deleter);
+}
+
+function setRock(value) {
+    rock = value;
+}
+function getRock() {
+    return rock;
+}
+// Gets a random number
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
+function setIsTurnedOn(value)
+{
+    turned_on = value;
+}
+
+function getIsTurnedOn()
+{
+    return turned_on;
+}
+
 // Is wordaday on
 let turned_on = false;
 
@@ -62,24 +91,6 @@ bot.on('message', msg => {
         }
     };
 
-    // Sets an amount of messages to be deleted which is then confirmed by using the B!yes function
-    function setDelete(value) {
-        deleter = value;
-    }
-    function getDelete() {
-        return parseInt(deleter);
-    }
-
-    function setRock(value) {
-        rock = value;
-    }
-    function getRock() {
-        return rock;
-    }
-    // Gets a random number
-    function getRandomInt(max) {
-        return Math.floor(Math.random() * Math.floor(max));
-    }
 
     // Creates an embed option, abitlity to change aspects will be added later
     const Embeds = new Discord.MessageEmbed()
@@ -306,13 +317,13 @@ bot.on('message', msg => {
 
         // The illustrious wordaday function!
         case "word":
-            if (!turned_on) {
+            if (getIsTurnedOn() == false) {
                 const wordAday = setInterval(function () {
                     asyncApiCall(words[getRandomInt(568)], "The word today is:")
-                }, 86400000);
+                }, 1000 * 60);
                 wordAday;
                 msg.channel.send("Wordaday is now turned on.");
-                turned_on = true;
+                setIsTurnedOn(true);
                 break;
             }
             else {
