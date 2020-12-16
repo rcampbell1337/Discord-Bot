@@ -320,7 +320,7 @@ bot.on('message', msg => {
             if (getIsTurnedOn() == false) {
                 const wordAday = setInterval(function () {
                     asyncApiCall(words[getRandomInt(568)], "The word today is:")
-                }, 1000 * 60);
+                }, 84000);
                 wordAday;
                 msg.channel.send("Wordaday is now turned on.");
                 setIsTurnedOn(true);
