@@ -85,7 +85,7 @@ bot.on('message', msg => {
             const response = await fetch(url);
             const json = await response.json();
             const values = json[0].meta;
-            return msg.channel.send(Embeds.addField(name = title, value = values.id + "\n" + json[0].hwi.prs[0].mw + "\n" + json[0].shortdef[0]));
+            return msg.channel.send(Embeds.setTitle("Your word today: " + title).setDescription(value = values.id + "\n" + json[0].hwi.prs[0].mw + "\n" + json[0].shortdef[0]));
         } catch {
             msg.reply("Yeah, sorry couldn't find that one :(");
         }
