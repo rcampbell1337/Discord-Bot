@@ -335,7 +335,6 @@ bot.on('message', msg => {
                 const image = await page.evaluate(() => Array.from(document.querySelectorAll('.col3s'), element => element.getElementsByTagName("img")[0].src));
                 let x = getRandomInt(text.length)
                 let newImageSize = image[x]
-                msg.channel.send(newImageSize);
 
                 msg.channel.send(Embeds.setImage(newImageSize).addFields(
                     { name: "Guess the rock!!!", value: "WHAT COULD IT BE?! (Type your guess after the B!guess keyword!)" }
@@ -352,7 +351,12 @@ bot.on('message', msg => {
                 msg.channel.send("Please ask for a Rock First...")
                 break;
             }
-            else if (args.slice(1).join("").toLowerCase == getRock().split(" ").join("").toLowerCase) {
+            else if (args.length == 3 && args[1].toLowerCase() + " " + args[2].toLowerCase() == getRock().toLowerCase()) {
+                msg.channel.send("Congratulations! The rock is " + getRock());
+                setRock("null");
+                break;
+            }
+            else if (args[1].toLowerCase() == getRock().toLowerCase()) {
                 msg.channel.send("Congratulations! The rock is " + getRock());
                 setRock("null");
                 break;
