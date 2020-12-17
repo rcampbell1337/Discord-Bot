@@ -38,7 +38,7 @@ bot.on('ready', () => {
 });
 
 // Version can be updated when neccessary
-const version = "1.1.0 (we've been through 5 versions now!)";
+const version = "1.1.1 (Version 6 here we are!)";
 
 // For the rock game
 let rock = "null";
@@ -210,11 +210,12 @@ bot.on('message', msg => {
         case "help":
             msg.channel.send(Embeds.addFields(
                 { name: "Command List", value: 'All commands start with B!' },
-                { name: "Memes", value: "simp, jojo, opm" },
+                { name: "Memes", value: "simp, jojo, opm, sucks" },
                 { name: "Numerical functions", value: "bin, oct, hex" },
                 { name: "Functionality", value: "info, help, hello, clear, ping, code, define, insult" },
                 { name: "Turn on wordaday!", value: "word" },
                 { name: "Play a game!", value: "rock" }
+                { name: "Other Cool Stuff!!", value: "motivate, insult" }
             ));
             break;
 
@@ -310,23 +311,6 @@ bot.on('message', msg => {
             wordAday;
             msg.channel.send("Wordaday is now turned on.");
             break;
-
-        // It's a bit much really
-        // case "slur":
-        //     async function scrapeProduct(url) {
-        //         const browser = await puppeteer.launch();
-        //         const page = await browser.newPage();
-        //         await page.goto(url);
-        //         x = getRandomInt(1000)
-        //         const [el] = await page.$x(`//*[@id="slur_${x}"]`);
-        //         const txt = await el.getProperty("textContent")
-        //         const rawTxt = await txt.jsonValue();
-        //         msg.channel.send(rawTxt);
-        //         msg.channel.send("https://media1.tenor.com/images/c2aefb6fe8b79617476f6367ecde0365/tenor.gif?itemid=10354060")
-        //         browser.close();
-        //     }
-        //     scrapeProduct("http://www.rsdb.org/full")
-        //     break;
 
         // Sends a random shakespearian insult to the user, can specify an end user.
         case "insult":
