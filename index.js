@@ -214,8 +214,8 @@ bot.on('message', msg => {
                 { name: "Numerical functions", value: "bin, oct, hex" },
                 { name: "Functionality", value: "info, help, hello, clear, ping, code, define, insult" },
                 { name: "Turn on wordaday!", value: "word" },
-                { name: "Play a game!", value: "rock" }
-                { name: "Other Cool Stuff!!", value: "motivate, insult" }
+                { name: "Play a game!", value: "rock" },
+                { name: "Other Cool Stuff!!", value: "inspire, insult" }
             ));
             break;
 
@@ -331,7 +331,7 @@ bot.on('message', msg => {
             break;
 
         // Sends a random motivational quote to the end user
-        case "motivate":
+        case "inspire":
             async function motivateMe(url) {
                 const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
                 const page = await browser.newPage();
