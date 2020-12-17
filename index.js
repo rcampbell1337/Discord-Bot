@@ -72,7 +72,7 @@ bot.on('message', msg => {
             const response = await fetch(url);
             const json = await response.json();
             const values = json[0].meta;
-            return msg.channel.send(Embeds.setTitle(title).setDescription(value = values.id + "\n" + json[0].hwi.prs[0].mw + "\n" + json[0].shortdef[0]));
+            return msg.channel.send(Embeds.addField(name = title, value = values.id + "\n" + json[0].hwi.prs[0].mw + "\n" + json[0].shortdef[0]));
         } catch {
             msg.reply("Yeah, sorry couldn't find that one :(");
         }
@@ -212,7 +212,7 @@ bot.on('message', msg => {
                 { name: "Command List", value: 'All commands start with B!' },
                 { name: "Memes", value: "simp, jojo, opm" },
                 { name: "Numerical functions", value: "bin, oct, hex" },
-                { name: "Functionality", value: "info, help, hello, clear, ping, code, define, slur" },
+                { name: "Functionality", value: "info, help, hello, clear, ping, code, define, insult" },
                 { name: "Turn on wordaday!", value: "word" },
                 { name: "Play a game!", value: "rock" }
             ));
@@ -304,29 +304,69 @@ bot.on('message', msg => {
 
         // The illustrious wordaday function!
         case "word":
-                const wordAday = setInterval(function () {
-                    asyncApiCall(words[getRandomInt(568)], "The word today is:")
-                }, 84000000);
-                wordAday;
-                msg.channel.send("Wordaday is now turned on.");
-                break;
+            const wordAday = setInterval(function () {
+                asyncApiCall(words[getRandomInt(568)], "The word today is:")
+            }, 86400000);
+            wordAday;
+            msg.channel.send("Wordaday is now turned on.");
+            break;
 
-        case "slur":
+        // It's a bit much really
+        // case "slur":
+        //     async function scrapeProduct(url) {
+        //         const browser = await puppeteer.launch();
+        //         const page = await browser.newPage();
+        //         await page.goto(url);
+        //         x = getRandomInt(1000)
+        //         const [el] = await page.$x(`//*[@id="slur_${x}"]`);
+        //         const txt = await el.getProperty("textContent")
+        //         const rawTxt = await txt.jsonValue();
+        //         msg.channel.send(rawTxt);
+        //         msg.channel.send("https://media1.tenor.com/images/c2aefb6fe8b79617476f6367ecde0365/tenor.gif?itemid=10354060")
+        //         browser.close();
+        //     }
+        //     scrapeProduct("http://www.rsdb.org/full")
+        //     break;
+
+        // Sends a random shakespearian insult to the user, can specify an end user.
+        case "insult":
             async function scrapeProduct(url) {
                 const browser = await puppeteer.launch();
                 const page = await browser.newPage();
                 await page.goto(url);
-                x = getRandomInt(1000)
-                const [el] = await page.$x(`//*[@id="slur_${x}"]`);
-                const txt = await el.getProperty("textContent")
-                const rawTxt = await txt.jsonValue();
-                msg.channel.send(rawTxt);
-                msg.channel.send("https://media1.tenor.com/images/c2aefb6fe8b79617476f6367ecde0365/tenor.gif?itemid=10354060")
+                const txt = await page.evaluate(() => Array.from(document.getElementsByTagName("font"), element => element.textContent));
+                if (args[1]) {
+                    msg.channel.send(args[1] + ", " + txt[1]);
+                }
+                else {
+                    msg.channel.send(txt[1]);
+                }
                 browser.close();
             }
-            scrapeProduct("http://www.rsdb.org/full")
+            scrapeProduct("http://www.literarygenius.info/a2-shakespeare-insult-generator.htm")
             break;
 
+        // Sends a random motivational quote to the end user
+        case "motivate":
+            async function motivateMe(url) {
+                const browser = await puppeteer.launch();
+                const page = await browser.newPage();
+                await page.goto(url);
+                const txt = await page.evaluate(() => Array.from(document.getElementsByTagName("strong"), element => element.textContent));
+                let x = getRandomInt(txt.length);
+                msg.channel.send(txt[x]);
+                browser.close();
+            }
+            motivateMe("https://personaldevelopfit.com/motivational-quotes/")
+            break;
+
+        // If people are mean to wordaday :(
+        case "sucks":
+            msg.channel.send("I'm trying my best");
+            msg.channel.send("<:struggle:778610140935880734>");
+            break;
+
+        // The most fun rock based guessing game you can think of
         case "rock":
             async function newProduct(url) {
                 const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
@@ -334,8 +374,8 @@ bot.on('message', msg => {
                 await page.goto(url);
                 const text = await page.evaluate(() => Array.from(document.querySelectorAll('.col3s'), element => element.textContent));
                 const image = await page.evaluate(() => Array.from(document.querySelectorAll('.col3s'), element => element.getElementsByTagName("img")[0].src));
-                let x = getRandomInt(text.length)
-                let newImageSize = image[x]
+                let x = getRandomInt(text.length);
+                let newImageSize = image[x];
 
                 msg.channel.send(Embeds.setImage(newImageSize).addFields(
                     { name: "Guess the rock!!!", value: "WHAT COULD IT BE?! (Type your guess after the B!guess keyword!)" }
@@ -347,6 +387,7 @@ bot.on('message', msg => {
             newProduct("https://geology.com/rocks/");
             break;
 
+        // User can take a guess at the rock
         case "guess":
             if (getRock() == "null") {
                 msg.channel.send("Please ask for a Rock First...")
