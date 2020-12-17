@@ -315,7 +315,7 @@ bot.on('message', msg => {
         // Sends a random shakespearian insult to the user, can specify an end user.
         case "insult":
             async function scrapeProduct(url) {
-                const browser = await puppeteer.launch();
+                const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
                 const page = await browser.newPage();
                 await page.goto(url);
                 const txt = await page.evaluate(() => Array.from(document.getElementsByTagName("font"), element => element.textContent));
@@ -333,7 +333,7 @@ bot.on('message', msg => {
         // Sends a random motivational quote to the end user
         case "motivate":
             async function motivateMe(url) {
-                const browser = await puppeteer.launch();
+                const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
                 const page = await browser.newPage();
                 await page.goto(url);
                 const txt = await page.evaluate(() => Array.from(document.getElementsByTagName("strong"), element => element.textContent));
