@@ -305,11 +305,7 @@ bot.on('message', msg => {
 
         // The illustrious wordaday function!
         case "word":
-            const wordAday = setInterval(function () {
-                asyncApiCall(words[getRandomInt(568)], "The word today is:")
-            }, 86400000);
-            wordAday;
-            msg.channel.send("Wordaday is now turned on.");
+            asyncApiCall(words[getRandomInt(568)], "Your word today is:")
             break;
 
         // Sends a random shakespearian insult to the user, can specify an end user.
