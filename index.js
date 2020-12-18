@@ -106,7 +106,7 @@ bot.on('message', msg => {
     Http.open("GET", url);
     Http.send();
 
-    switch (args[0]) {
+    switch (args[0].toLowerCase()) {
         // This is the current version number
         case "info":
             if (args[1] === "version") {
