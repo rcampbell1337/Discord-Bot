@@ -391,7 +391,7 @@ bot.on('message', msg => {
 
         // A selection of dice rolls for different numbers
         case "20":
-            let x = 9 //getRandomInt(20) + 1;
+            let x = getRandomInt(20) + 1;
             if (x == 20) {
                 msg.channel.send(x);
                 msg.channel.send("<:nice:783687286650830919>");
