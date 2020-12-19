@@ -389,6 +389,39 @@ bot.on('message', msg => {
                 break;
             }
 
+        // A selection of dice rolls for different numbers
+        case "20":
+            let x = 9 //getRandomInt(20) + 1;
+            if (x == 20) {
+                msg.channel.send(x);
+                msg.channel.send("<:nice:783687286650830919>");
+                break
+            }
+            else {
+                msg.channel.send(x);
+                break;
+            }
+            break;
+
+        case "12":
+            msg.channel.send(getRandomInt(12) + 1);
+            break;
+
+        case "10":
+            msg.channel.send(getRandomInt(10) + 1);
+            break;
+
+        case "8":
+            msg.channel.send(getRandomInt(8) + 1);
+            break;
+
+        case "6":
+            msg.channel.send(getRandomInt(6) + 1);
+            break;
+
+        case "4":
+            msg.channel.send(getRandomInt(4) + 1);
+            break;
     }
 
 });
