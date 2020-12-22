@@ -38,7 +38,7 @@ bot.on('ready', () => {
 });
 
 // Version can be updated when neccessary
-const version = "1.1.1 (Version 6 here we are!)";
+const version = "1.1.2 (Version 7 here we are!)";
 
 // For the rock game
 let rock = "null";
@@ -132,7 +132,7 @@ bot.on('message', msg => {
             // Tests the ping of the user asking for it
             function pinger() {
                 let reply = 0;
-                Http.addEventListener('readystatechange', (event) => {
+                Http.addEventListener('readystatechange', () => {
                     if (Http.readyState == 4 && Http.status == 200) {
                         let pong = new Date();
                         const response = pong.getMilliseconds();
@@ -215,7 +215,8 @@ bot.on('message', msg => {
                 { name: "Functionality", value: "info, help, hello, clear, ping, code, define, insult" },
                 { name: "Turn on wordaday!", value: "word" },
                 { name: "Play a game!", value: "rock" },
-                { name: "Other Cool Stuff!!", value: "inspire, insult" }
+                { name: "Other Cool Stuff!!", value: "inspire, insult, fact" }
+                { name: "Dice Rolls", value: "20, 12, 10, 8, 6, 4"}
             ));
             break;
 
@@ -389,19 +390,34 @@ bot.on('message', msg => {
                 break;
             }
 
+        // Get a random fact
+        case "fact":
+            async function teachMe(url) {
+                const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+                const page = await browser.newPage();
+                await page.goto(url);
+                const txt = await page.evaluate(() => Array.from(document.querySelectorAll(".list"), element => element.textContent));
+                let x = getRandomInt(txt.length);
+                msg.channel.send(txt[x]);
+                setTimeout( function() {msg.channel.send("<:thinking:778611853856997396>");}, 2000);
+                browser.close();
+            }
+            let page = getRandomInt(6);
+            teachMe(`https://www.thefactsite.com/1000-interesting-facts/${page}`)
+            break;
+
         // A selection of dice rolls for different numbers
         case "20":
             let x = getRandomInt(20) + 1;
             if (x == 20) {
                 msg.channel.send(x);
                 msg.channel.send("<:nice:783687286650830919>");
-                break
+                break;
             }
             else {
                 msg.channel.send(x);
                 break;
             }
-            break;
 
         case "12":
             msg.channel.send(getRandomInt(12) + 1);
