@@ -215,7 +215,7 @@ bot.on('message', msg => {
                 { name: "Functionality", value: "info, help, hello, clear, ping, code, define, insult" },
                 { name: "Turn on wordaday!", value: "word" },
                 { name: "Play a game!", value: "rock" },
-                { name: "Other Cool Stuff!!", value: "inspire, insult, fact" }
+                { name: "Other Cool Stuff!!", value: "inspire, insult, fact" },
                 { name: "Dice Rolls", value: "20, 12, 10, 8, 6, 4"}
             ));
             break;
