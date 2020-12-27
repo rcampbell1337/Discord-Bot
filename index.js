@@ -335,7 +335,9 @@ bot.on('message', msg => {
                 await page.goto(url);
                 const txt = await page.evaluate(() => Array.from(document.getElementsByTagName("strong"), element => element.textContent));
                 let x = getRandomInt(txt.length);
-                msg.channel.send(txt[x]);
+                msg.channel.send(Embeds.setImage("https://hofholistichealingcenters.files.wordpress.com/2012/10/inspired-life-1.jpg").addFields(
+                    { name: "Let's get inspired", value: txt[x] }
+                ));
                 browser.close();
             }
             motivateMe("https://personaldevelopfit.com/motivational-quotes/")
@@ -398,7 +400,9 @@ bot.on('message', msg => {
                 await page.goto(url);
                 const txt = await page.evaluate(() => Array.from(document.querySelectorAll(".list"), element => element.textContent));
                 let x = getRandomInt(txt.length);
-                msg.channel.send(txt[x]);
+                msg.channel.send(Embeds.setImage("https://i.imgflip.com/2wakz3.png").addFields(
+                    { name: "To learn is to grow.", value: txt[x] }
+                ));
                 setTimeout( function() {msg.channel.send("<:thinking:778611853856997396>");}, 2000);
                 browser.close();
             }
