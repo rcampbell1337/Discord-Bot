@@ -38,7 +38,7 @@ bot.on('ready', () => {
 });
 
 // Version can be updated when neccessary
-const version = "1.1.2;
+const version = "1.1.2";
 
 // For the rock game
 let rock = "null";
