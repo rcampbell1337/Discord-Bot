@@ -16,6 +16,7 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 const fetch = require('node-fetch');
 const words = require("./words");
+const challenges = require("./challenges");
 // Sets up the bot for the apps
 const token = process.env.BOT_VAR;
 const prefix = "B!"
@@ -215,16 +216,19 @@ bot.on('message', msg => {
                 { name: "Functionality", value: "info, help, hello, clear, ping, code, define, insult" },
                 { name: "Turn on wordaday!", value: "word" },
                 { name: "Play a game!", value: "rock" },
-                { name: "Other Cool Stuff!!", value: "inspire, insult, fact" },
-                { name: "Dice Rolls", value: "20, 12, 10, 8, 6, 4"}
+                { name: "Other Cool Stuff!!", value: "inspire, insult, fact, challenge" },
+                { name: "Dice Rolls", value: "20, 12, 10, 8, 6, 4" }
             ));
             break;
 
-        // Allows the user to be given a programming language for the day
-        case "code":
-            const language = ["Java", "Python", "JS", "C++", "PHP", "HTML/ CSS"]
-            msg.channel.send("Today you should write code in: " + language[getRandomInt(6)]);
+        // Allows the user to be given a programming challenge for the day
+        case "challenge":
+            let z = getRandomInt(description.length);
+            msg.channel.send(Embeds.setImage(null).addFields(
+                { name: titles[z], value: description[z]}
+            ));
             break;
+
         case "thanks":
             msg.channel.send("You're welcome chief!");
             break;
@@ -364,7 +368,6 @@ bot.on('message', msg => {
                     { name: "Guess the rock!!!", value: "WHAT COULD IT BE?! (Type your guess after the B!guess keyword!)" }
                 ));
                 setRock(text[x]);
-                console.log(getRock())
                 browser.close();
             }
             newProduct("https://geology.com/rocks/");
@@ -403,7 +406,7 @@ bot.on('message', msg => {
                 msg.channel.send(Embeds.setImage("https://i.imgflip.com/2wakz3.png").addFields(
                     { name: "To learn is to grow.", value: txt[x] }
                 ));
-                setTimeout( function() {msg.channel.send("<:thinking:778611853856997396>");}, 2000);
+                setTimeout(function () { msg.channel.send("<:thinking:778611853856997396>"); }, 2000);
                 browser.close();
             }
             let page = getRandomInt(6);
