@@ -19,7 +19,7 @@ const words = require("./words");
 const challenges = require("./challenges");
 // Sets up the bot for the apps
 const token = process.env.BOT_VAR;
-const prefix = "B!"
+const prefix = "b!"
 
 
 // Overwrite the flat function not available to discord current version
@@ -95,7 +95,11 @@ bot.on('message', msg => {
     let selfUser = msg.member.user.username;
 
     // Determines how many arguments have been taken in
-    let args = msg.content.slice(prefix.length).split(" ");
+    let args = ["none"];
+    if (msg.content.toLowerCase().includes(prefix))
+        args = msg.content.slice(prefix.length).split(" ");
+
+    console.log(msg.content.slice(prefix.length));
 
     // Works as a reference to establish ping later
     let present = new Date();
