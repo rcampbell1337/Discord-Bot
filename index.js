@@ -99,8 +99,6 @@ bot.on('message', msg => {
     if (msg.content.toLowerCase().includes(prefix))
         args = msg.content.slice(prefix.length).split(" ");
 
-    console.log(msg.content.slice(prefix.length));
-
     // Works as a reference to establish ping later
     let present = new Date();
     let time = present.getMilliseconds();
