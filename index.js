@@ -63,6 +63,8 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
+let album_list = [];
+
 bot.on('message', msg => {
 
     // This function gets data using a dictionary api and relays it into an embed, using this function both word a day and define can be called.
@@ -190,24 +192,44 @@ bot.on('message', msg => {
             msg.channel.send('Hey ' + selfUser + ", What's up!");
             break;
 
-        // Deletes a user specified number of messages
-        case "clear":
-            if (!args[1]) return msg.reply("Error, please enter define a second arg");
-            else {
-                if (args[1] < 20) {
-                    setDelete(parseInt(args[1]));
-                    msg.channel.send("Type B!yes to delete.");
-                    break;
+        // Adds an album to the album arr
+        case "album":
+            if (!args[1]) return msg.reply("Error, please enter define an album title");
+            else 
+            {
+                let album_name = "";
+                for (arg in args)
+                {
+                    if (arg > 0)
+                    {
+                        album_name += args[arg] + " ";
+                    }
                 }
-                else if (args[1] > 100) {
-                    msg.reply("Come on guys, really? more than 100?");
-                    break;
-                }
-                else {
-                    msg.reply("You're trying to delete too many")
-                    break;
-                }
+                msg.channel.bulkDelete(1);
+                album_list.push(album_name);
             }
+            break;
+
+        // Returns an album and resets arr
+        case "generate_album":
+            if (album_list.length > 0)
+            {
+                let rand_album = getRandomInt(album_list.length);
+                msg.channel.send(album_list[rand_album]);
+                album_list.splice(rand_album);
+            }
+            else 
+            {
+                msg.channel.send("No albums in the list... Why not add");
+            }
+            break;
+
+        // Returns an album and resets arr
+        case "admin_clear_albums":
+            msg.channel.bulkDelete(1);
+            album_list = [];
+            console.log(album_list);
+            break;
 
         // Tells the user all of the commands
         case "help":
@@ -216,6 +238,7 @@ bot.on('message', msg => {
                 { name: "Memes", value: "simp, jojo, opm, sucks" },
                 { name: "Numerical functions", value: "bin, oct, hex" },
                 { name: "Functionality", value: "info, help, hello, clear, ping, code, define, insult" },
+                { name: "Albums", value: "album, generate_album" },
                 { name: "Turn on wordaday!", value: "word" },
                 { name: "Play a game!", value: "rock" },
                 { name: "Other Cool Stuff!!", value: "inspire, insult, fact, challenge" },
@@ -448,7 +471,6 @@ bot.on('message', msg => {
             msg.channel.send(getRandomInt(4) + 1);
             break;
     }
-
 });
 
 // Allows the bot to be usable on Discord
