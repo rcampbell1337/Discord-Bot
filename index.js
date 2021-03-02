@@ -63,7 +63,7 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-let album_list = [];
+let album_list = new Object();
 
 bot.on('message', msg => {
 
@@ -80,7 +80,6 @@ bot.on('message', msg => {
             msg.reply("Yeah, sorry couldn't find that one :(");
         }
     };
-
 
     // Creates an embed option, abitlity to change aspects will be added later
     const Embeds = new Discord.MessageEmbed()
@@ -132,6 +131,7 @@ bot.on('message', msg => {
                 msg.channel.send("Enter a second argument: author or version.");
             }
             break;
+
         case "ping":
 
             // Tests the ping of the user asking for it
@@ -194,40 +194,68 @@ bot.on('message', msg => {
 
         // Adds an album to the album arr
         case "album":
-            if (!args[1]) return msg.reply("Error, please enter define an album title");
+            let add_album = async() => 
+            {
+                try
+                {
+                    if (selfUser in album_list)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                } catch {
+                    msg.reply("Error");
+                }
+            } 
+
+            if (add_album)
+            {
+                if (!args[1]) return msg.reply("Error, please enter define an album title");
+                else 
+                {
+                    let album_name = "";
+                    for (arg in args)
+                    {
+                        if (arg > 0)
+                        {
+                            album_name += args[arg] + " ";
+                        }
+                    }
+                    msg.channel.bulkDelete(1);
+                    album_list[selfUser] = album_name;
+                    console.log(album_list);
+                }
+                break;
+            }
             else 
             {
-                let album_name = "";
-                for (arg in args)
-                {
-                    if (arg > 0)
-                    {
-                        album_name += args[arg] + " ";
-                    }
-                }
-                msg.channel.bulkDelete(1);
-                album_list.push(album_name);
+                return msg.reply("You have already chosen an album.");
             }
-            break;
 
         // Returns an album and resets arr
         case "generate_album":
-            if (album_list.length > 0)
+            let length_list = Object.keys(album_list).length;
+            if (length_list > 0)
             {
-                let rand_album = getRandomInt(album_list.length);
-                msg.channel.send(album_list[rand_album]);
-                album_list.splice(rand_album);
+                let rand_album = getRandomInt(length_list);
+                let key = Object.keys(album_list)[rand_album];
+                let album = album_list[key];
+                msg.channel.send(album);
+                delete album_list[key];
             }
             else 
             {
-                msg.channel.send("No albums in the list... Why not add");
+                msg.channel.send("No albums in the list... Why not add your choice now!");
             }
             break;
 
         // Returns an album and resets arr
         case "admin_clear_albums":
             msg.channel.bulkDelete(1);
-            album_list = [];
+            album_list = new Map();
             console.log(album_list);
             break;
 
@@ -257,6 +285,7 @@ bot.on('message', msg => {
         case "thanks":
             msg.channel.send("You're welcome chief!");
             break;
+
         // Delete messages confirmation
         case "yes":
             try {
